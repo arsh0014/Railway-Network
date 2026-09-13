@@ -3,9 +3,10 @@ import { upcomingProductsData } from '../data/dashboardData';
 
 export const UpcomingProducts = ({ onSelectUpcoming }) => {
   return (
-    <div className="dashboard-card">
+    <div className="dashboard-section">
       <h3 className="card-heading">UPCOMING PRODUCTS</h3>
-      <div className="upcoming-products-subgrid">
+      <div className="dashboard-card">
+        <div className="upcoming-products-subgrid">
         {upcomingProductsData.map((item) => (
           <div 
             key={item.id} 
@@ -27,6 +28,7 @@ export const UpcomingProducts = ({ onSelectUpcoming }) => {
             <span className="upcoming-title-label">{item.name}</span>
           </div>
         ))}
+        </div>
       </div>
     </div>
   );

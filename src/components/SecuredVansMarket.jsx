@@ -8,10 +8,10 @@ export const SecuredVansMarket = () => {
   const maxOnboard = 26;
 
   return (
-    <div className="dashboard-card">
+    <div className="dashboard-section">
       <h3 className="card-heading">SECURED VANS MARKET</h3>
-
-      <div className="secured-market-subgrid">
+      <div className="dashboard-card">
+        <div className="secured-market-subgrid">
         {/* WAY SIDE VCB Chart */}
         <div className="market-chart-col">
           <div className="chart-header-row">
@@ -66,6 +66,7 @@ export const SecuredVansMarket = () => {
           </div>
 
           <span className="chart-title-tag">{onboard.title}</span>
+        </div>
         </div>
       </div>
     </div>

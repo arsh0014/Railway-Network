@@ -46,6 +46,12 @@ export function App() {
 
   return (
     <div className="dashboard-wrapper">
+      <div className="corner-brand-logo" aria-label="Railway logo">
+        <svg viewBox="0 0 48 48" aria-hidden="true">
+          <path d="M9 10h22a5 5 0 0 1 5 5v13a7 7 0 0 1-7 7H16a7 7 0 0 1-7-7V10Z" />
+          <path d="M9 21h27M15 35l-4 6M31 35l4 6M16 15h.01M25 15h.01" />
+        </svg>
+      </div>
       {/* Background Engineering Grids & Glow */}
       <div className="bg-tech-grid" />
       <div className="bg-circuit-lines" />

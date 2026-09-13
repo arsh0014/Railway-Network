@@ -3,9 +3,10 @@ import { directorsData } from '../data/dashboardData';
 
 export const DirectorsCard = ({ onSelectDirector }) => {
   return (
-    <div className="dashboard-card">
+    <div className="dashboard-section">
       <h3 className="card-heading">DIRECTORS</h3>
-      <div className="directors-subgrid">
+      <div className="dashboard-card">
+        <div className="directors-subgrid">
         {directorsData.map((director) => (
           <div 
             key={director.id} 
@@ -22,6 +23,7 @@ export const DirectorsCard = ({ onSelectDirector }) => {
             </div>
           </div>
         ))}
+        </div>
       </div>
     </div>
   );

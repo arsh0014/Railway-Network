@@ -3,9 +3,10 @@ import { productsData } from '../data/dashboardData';
 
 export const ProductsCard = ({ onSelectProduct }) => {
   return (
-    <div className="dashboard-card">
+    <div className="dashboard-section">
       <h3 className="card-heading">PRODUCTS</h3>
-      <div className="products-subgrid">
+      <div className="dashboard-card">
+        <div className="products-subgrid">
         {productsData.map((product) => (
           <div 
             key={product.id} 
@@ -27,6 +28,7 @@ export const ProductsCard = ({ onSelectProduct }) => {
             <span className="product-title-label">{product.name}</span>
           </div>
         ))}
+        </div>
       </div>
     </div>
   );

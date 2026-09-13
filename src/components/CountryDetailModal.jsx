@@ -6,6 +6,57 @@ export const CountryDetailModal = ({ item, type, onClose }) => {
 
   if (!item) return null;
 
+  if (type === 'product') {
+    return (
+      <div className="modal-backdrop" onClick={onClose}>
+        <div className="product-inspector-modal" onClick={(e) => e.stopPropagation()}>
+          <section className="product-video-pane">
+            <div className="product-video-heading">
+              <h2>{item.name}</h2>
+              <span>{item.category}</span>
+            </div>
+            <div className="product-video-frame">
+              {item.videoUrl ? (
+                <video controls autoPlay muted poster={item.image}>
+                  <source src={item.videoUrl} type="video/mp4" />
+                  Your browser does not support video playback.
+                </video>
+              ) : (
+                <div className="product-video-placeholder">
+                  <img src={item.image} alt={`${item.name} preview`} />
+                  <div className="video-placeholder-overlay">
+                    <span className="video-play-icon">▶</span>
+                    <strong>Product video</strong>
+                    <small>Add an MP4 video using the product&apos;s <code>videoUrl</code>.</small>
+                  </div>
+                </div>
+              )}
+            </div>
+          </section>
+
+          <aside className="product-info-pane">
+            <div className="inspector-eyebrow">PRODUCT INSPECTOR</div>
+            <h2>Details</h2>
+            <button className="product-inspector-close light-close" onClick={onClose} aria-label="Close product details">
+              <X size={19} />
+            </button>
+
+            <div className="inspector-detail-list">
+              <div><span>PRODUCT</span><strong>{item.name}</strong></div>
+              <div><span>CATEGORY</span><strong>{item.category}</strong></div>
+              <div><span>SPECIFICATIONS</span><strong>{item.specsSummary || 'Railway electrification equipment'}</strong></div>
+              <div><span>DESCRIPTION</span><p>{item.description}</p></div>
+            </div>
+
+            <div className="product-info-actions">
+              <button className="inspector-primary-action" onClick={onClose}>Close</button>
+            </div>
+          </aside>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="modal-backdrop" onClick={onClose}>
       <div className="modal-content-box" style={{ maxWidth: '680px', maxHeight: '90vh', overflowY: 'auto' }} onClick={(e) => e.stopPropagation()}>
@@ -100,86 +151,6 @@ export const CountryDetailModal = ({ item, type, onClose }) => {
                 </div>
               </div>
             </div>
-          </div>
-        )}
-
-        {/* ========================================================
-            PRODUCT DETAIL MODAL
-        ======================================================== */}
-        {type === 'product' && (
-          <div>
-            <div style={{ display: 'flex', gap: '18px', alignItems: 'center', marginBottom: '18px' }}>
-              <img 
-                src={item.image} 
-                alt={item.name} 
-                style={{ width: '110px', height: '110px', objectFit: 'cover', borderRadius: '14px', border: '2px solid #DDE7F0', boxShadow: '0 4px 14px rgba(11, 42, 99, 0.1)' }} 
-              />
-              <div style={{ flex: 1 }}>
-                <span style={{ fontSize: '11px', fontWeight: '800', color: '#F28C28', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
-                  {item.category}
-                </span>
-                <h2 style={{ fontFamily: 'Outfit, sans-serif', fontSize: '24px', fontWeight: '800', color: '#0B2A63', marginTop: '2px' }}>
-                  {item.name}
-                </h2>
-                {item.specsSummary && (
-                  <div style={{ fontSize: '12px', fontWeight: '700', color: '#173F7A', background: '#EAF3FA', padding: '4px 10px', borderRadius: '8px', display: 'inline-block', marginTop: '6px' }}>
-                    {item.specsSummary}
-                  </div>
-                )}
-              </div>
-            </div>
-
-            <p style={{ fontSize: '13.5px', color: '#334155', lineHeight: '1.5', marginBottom: '18px' }}>
-              {item.description}
-            </p>
-
-            {/* Technical Specifications Grid */}
-            {item.specifications && (
-              <div style={{ marginBottom: '18px' }}>
-                <h4 style={{ fontSize: '12px', fontWeight: '800', color: '#0B2A63', textTransform: 'uppercase', marginBottom: '8px', display: 'flex', alignItems: 'center', gap: '6px' }}>
-                  <Cpu size={15} color="#0B2A63" /> Full Technical Specifications
-                </h4>
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px' }}>
-                  {item.specifications.map((spec, i) => (
-                    <div key={i} style={{ background: '#F8FAFC', border: '1px solid #E2ECF5', borderRadius: '8px', padding: '8px 12px' }}>
-                      <div style={{ fontSize: '10px', fontWeight: '700', color: '#64748B' }}>{spec.label}</div>
-                      <div style={{ fontSize: '12px', fontWeight: '800', color: '#0B2A63', marginTop: '2px' }}>{spec.value}</div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            )}
-
-            {/* Key Engineering Features */}
-            {item.features && (
-              <div style={{ marginBottom: '18px' }}>
-                <h4 style={{ fontSize: '12px', fontWeight: '800', color: '#0B2A63', textTransform: 'uppercase', marginBottom: '8px' }}>
-                  Key Engineering Features & Advantages
-                </h4>
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
-                  {item.features.map((f, i) => (
-                    <div key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: '8px', fontSize: '12.5px', color: '#334155' }}>
-                      <CheckCircle2 size={15} color="#F28C28" style={{ marginTop: '2px', flexShrink: 0 }} />
-                      <span>{f}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            )}
-
-            {/* Deployment References */}
-            {item.deployments && (
-              <div style={{ background: '#F4F8FC', border: '1px solid #DDE7F0', borderRadius: '12px', padding: '12px 14px' }}>
-                <h4 style={{ fontSize: '11px', fontWeight: '800', color: '#0B2A63', textTransform: 'uppercase', marginBottom: '6px', display: 'flex', alignItems: 'center', gap: '6px' }}>
-                  <Train size={14} color="#0B2A63" /> Major Trackside & Fleet Deployments
-                </h4>
-                <ul style={{ paddingLeft: '18px', fontSize: '12px', color: '#475569', display: 'flex', flexDirection: 'column', gap: '4px' }}>
-                  {item.deployments.map((dep, i) => (
-                    <li key={i}>{dep}</li>
-                  ))}
-                </ul>
-              </div>
-            )}
           </div>
         )}
 
