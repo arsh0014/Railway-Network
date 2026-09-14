@@ -3,7 +3,7 @@ import React from 'react';
 export const CountryTooltip = ({ countryData }) => {
   if (!countryData) return null;
 
-  const { name, percentage, category, investment, x, y } = countryData;
+  const { name, percentage, displayPercentage, routeSummary, category, investment, x, y } = countryData;
 
   const getStatusColor = (pct) => {
     if (pct >= 80) return '#0B2A63';
@@ -27,9 +27,16 @@ export const CountryTooltip = ({ countryData }) => {
           className="tooltip-badge" 
           style={{ backgroundColor: getStatusColor(percentage) }}
         >
-          {percentage}% Electrified
+          {displayPercentage || `${percentage}%`} Electrified
         </span>
       </div>
+
+      {routeSummary && (
+        <div className="tooltip-row">
+          <span className="tooltip-label">Electrified / total:</span>
+          <span className="tooltip-value">{routeSummary}</span>
+        </div>
+      )}
 
       <div className="tooltip-row">
         <span className="tooltip-label">Category:</span>

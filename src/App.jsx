@@ -20,7 +20,7 @@ export function App() {
   const handleCountrySelect = (countryBasic) => {
     // Find full country record in data store
     const fullCountry = countryData.find((c) => c.id === countryBasic.id) || countryBasic;
-    setModalItem(fullCountry);
+    setModalItem({ ...fullCountry, ...countryBasic });
     setModalType('country');
   };
 
@@ -47,10 +47,7 @@ export function App() {
   return (
     <div className="dashboard-wrapper">
       <div className="corner-brand-logo" aria-label="Railway logo">
-        <svg viewBox="0 0 48 48" aria-hidden="true">
-          <path d="M9 10h22a5 5 0 0 1 5 5v13a7 7 0 0 1-7 7H16a7 7 0 0 1-7-7V10Z" />
-          <path d="M9 21h27M15 35l-4 6M31 35l4 6M16 15h.01M25 15h.01" />
-        </svg>
+        <img src="/images/vans-logo.jpeg" alt="VANS Electro logo" />
       </div>
       {/* Background Engineering Grids & Glow */}
       <div className="bg-tech-grid" />

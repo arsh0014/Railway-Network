@@ -635,6 +635,15 @@ export const productsData = [
   {
     id: "p1",
     name: "VCB WAY SIDE RELAY",
+    videoUrl: "/videos/vcb.mp4",
+    documentSpec: {
+      product: "11 kV Vacuum Circuit Breaker",
+      description: "Interrupts fault currents to protect medium-voltage electrical networks and connected equipment.",
+      marketScope: "Utilities, industrial plants, infrastructure developers and switchgear integrators. Proposed export focus: South/Southeast Asia, the Middle East and Africa.",
+      demandDrivers: "Grid upgrades, industrial expansion, new substations and replacement of ageing breakers.",
+      investmentImpact: "Increase manufacturing capacity, strengthen quality testing and obtain destination-market approvals.",
+      growthPotential: "Higher production volumes, repeat OEM orders and export sales over 3-5 years, supported by capacity utilisation and competitive pricing."
+    },
     category: "Trackside Substation Switchgear",
     image: "/images/vcb_wayside_relay.jpg",
     description: "25kV / 52kV Outdoor Vacuum Circuit Breaker with high-speed microprocessor numeric protection relay designed specifically for extreme railway traction power substations.",
@@ -664,6 +673,15 @@ export const productsData = [
   {
     id: "p2",
     name: "VCB ON BOARD RELAY",
+    videoUrl: "/videos/vcb-on-board.mp4",
+    documentSpec: {
+      product: "Locomotive Vacuum Circuit Breaker",
+      description: "Disconnects an AC electric locomotive from the overhead supply during faults, protecting onboard traction equipment.",
+      marketScope: "Rolling-stock manufacturers, railway operators and maintenance organisations. Proposed export focus: compatible AC rail networks in Asia, the Middle East and selected African markets.",
+      demandDrivers: "Railway electrification, electric-fleet expansion, refurbishment and replacement demand.",
+      investmentImpact: "Fund engineering validation, railway approvals, production tooling and OEM qualification.",
+      growthPotential: "OEM supply programmes followed by replacement and spare-parts demand over 3-5 years, subject to qualification and procurement timelines."
+    },
     category: "Locomotive & EMU Electric Traction",
     image: "/images/vcb_onboard_relay.jpg",
     description: "Ultra-compact roof-mounted & machine-room locomotive vacuum circuit breaker engineered for extreme vibration, aerodynamic shock waves, and heavy electric traction duties.",
@@ -693,6 +711,15 @@ export const productsData = [
   {
     id: "p3",
     name: "RMU",
+    videoUrl: "/videos/rmu.mp4",
+    documentSpec: {
+      product: "Ring Main Unit (RMU)",
+      description: "Provides compact power switching and fault isolation, helping maintain supply to unaffected network sections.",
+      marketScope: "Distribution utilities, industrial parks and commercial infrastructure. Proposed export focus: the Middle East, Southeast Asia and Africa.",
+      demandDrivers: "Urban expansion, distribution-network modernisation and demand for more reliable electricity supply.",
+      investmentImpact: "Scale assembly, develop remote-monitoring options and strengthen local sales and service partnerships.",
+      growthPotential: "Utility and infrastructure contracts, with additional opportunities from automation upgrades and after-sales support over 3-5 years."
+    },
     category: "Medium Voltage Power Distribution",
     image: "/images/rmu_switchgear.jpg",
     description: "Gas-insulated / Solid-insulated compact Ring Main Unit switchgear tailored for metro rail networks, passenger stations, trackside signaling power, and tunnel auxiliary substations.",
@@ -722,6 +749,15 @@ export const productsData = [
   {
     id: "p4",
     name: "VACUUM INTERRUPTER",
+    videoUrl: "/videos/vacuum-interrupter.mp4",
+    documentSpec: {
+      product: "Vacuum Bottle Testing Solution",
+      description: "Checks vacuum-interrupter integrity to support preventive maintenance and reliable breaker performance.",
+      marketScope: "Utilities, industrial maintenance teams, switchgear manufacturers and testing agencies. Proposed export focus: the Middle East, Southeast Asia and Africa.",
+      demandDrivers: "Ageing switchgear, equipment replacement and greater emphasis on preventive maintenance.",
+      investmentImpact: "Expand testing capabilities, product validation, technical support and international distribution.",
+      growthPotential: "Equipment sales alongside repeat testing and maintenance services over 3-5 years, if offered by the company."
+    },
     category: "Core Arc Quenching Technology",
     image: "/images/vacuum_interrupter.jpg",
     description: "World-class high-dielectric ceramic envelope vacuum interrupter bottle delivering >30,000 maintenance-free high-voltage arc quenching cycles under harsh railway inductive switching.",
@@ -753,7 +789,7 @@ export const productsData = [
 export const directorsData = [
   {
     id: "d1",
-    name: "Ravi Sharma",
+    name: "B. Srinivasan",
     title: "Managing Director & CEO",
     focus: "Strategic Infrastructure, High-Voltage Innovation, & Global Market Leadership",
     experience: "28+ Years in High-Voltage Rail Technology & Global EPC Projects",
@@ -771,11 +807,11 @@ export const directorsData = [
       { label: "Team Strength", value: "850+ Engineers" },
       { label: "Industry Tenure", value: "28 Years" }
     ],
-    image: "/images/director_1.jpg"
+    image: "/images/b-srinivasan.jpg"
   },
   {
     id: "d2",
-    name: "Anand Verma",
+    name: "Viraj Bansal",
     title: "Executive Director - Technology & R&D",
     focus: "Next-Gen Vacuum Interrupters, SF6-Free Switchgear, & Digital Substation SCADA",
     experience: "Lead Power Systems Architect & IEEE High-Voltage Keynote Speaker",
@@ -793,11 +829,11 @@ export const directorsData = [
       { label: "Lab Certifications", value: "KEMA & CPRI" },
       { label: "Innovation Budget", value: "8.5% of Revenue" }
     ],
-    image: "/images/director_2.jpg"
+    image: "/images/viraj-bansal.jpg"
   },
   {
     id: "d3",
-    name: "Dr. S. K. Mehta",
+    name: "Abhishek Saraff",
     title: "Senior Managing Director - Operations & Quality",
     focus: "Precision Manufacturing, Six-Sigma Quality Standards, & International Supply Chains",
     experience: "Excellence in Leadership Award Recipient | 26 Years in Heavy Industrial Manufacturing",
@@ -815,11 +851,11 @@ export const directorsData = [
       { label: "Field Reliability", value: "99.98%" },
       { label: "Operations Tenure", value: "26 Years" }
     ],
-    image: "/images/director_3.jpg"
+    image: "/images/abhishek-saraff.jpg"
   },
   {
     id: "d4",
-    name: "Vikram Sengupta",
+    name: "Nitin Jain",
     title: "Director - International Business & Strategic Growth",
     focus: "Global Market Expansion, Trans-Continental Rail Alliances, & Trade Partnerships",
     experience: "Spearheading North American, European, Middle East, & African Railway Market Entry",
@@ -837,7 +873,7 @@ export const directorsData = [
       { label: "OEM Alliances", value: "15 Global OEMs" },
       { label: "Export Share", value: "42% of Sales" }
     ],
-    image: "/images/director_4.jpg"
+    image: "/images/nitin-jain.jpg"
   }
 ];
 

@@ -48,6 +48,18 @@ export const CountryDetailModal = ({ item, type, onClose }) => {
               <div><span>DESCRIPTION</span><p>{item.description}</p></div>
             </div>
 
+            {item.documentSpec && (
+              <div className="document-spec-panel">
+                <div className="document-spec-title">DOCUMENT PRODUCT SPECIFICATION</div>
+                <div className="document-spec-product">{item.documentSpec.product}</div>
+                <div className="document-spec-row"><span>PRODUCT SCOPE</span><p>{item.documentSpec.description}</p></div>
+                <div className="document-spec-row"><span>MARKET SCOPE</span><p>{item.documentSpec.marketScope}</p></div>
+                <div className="document-spec-row"><span>DEMAND DRIVERS</span><p>{item.documentSpec.demandDrivers}</p></div>
+                <div className="document-spec-row"><span>INVESTMENT IMPACT</span><p>{item.documentSpec.investmentImpact}</p></div>
+                <div className="document-spec-row"><span>3-5 YEAR GROWTH POTENTIAL</span><p>{item.documentSpec.growthPotential}</p></div>
+              </div>
+            )}
+
             <div className="product-info-actions">
               <button className="inspector-primary-action" onClick={onClose}>Close</button>
             </div>
