@@ -790,89 +790,33 @@ export const directorsData = [
   {
     id: "d1",
     name: "B. Srinivasan",
-    title: "Managing Director & CEO",
-    focus: "Strategic Infrastructure, High-Voltage Innovation, & Global Market Leadership",
-    experience: "28+ Years in High-Voltage Rail Technology & Global EPC Projects",
-    education: "B.Tech (Electrical Engineering) - IIT Roorkee | Executive Leadership - Harvard Business School",
-    email: "r.sharma@rail-electrification.corp",
-    location: "Corporate HQ, New Delhi & Mumbai",
-    achievements: [
-      "Spearheaded 25kV VCB deployment across 18,000+ km of national freight and high-speed rail corridors",
-      "Championed the indigenization of 52kV trackside vacuum interrupter technology under Make in India",
-      "Led company through 450% revenue growth over 6 years with zero-debt balance sheet"
-    ],
-    stats: [
-      { label: "Corridor Projects", value: "18,000+ km" },
-      { label: "Global Patents", value: "12 Granted" },
-      { label: "Team Strength", value: "850+ Engineers" },
-      { label: "Industry Tenure", value: "28 Years" }
-    ],
+    title: "Managing Director",
+    focus: "Technology & Intellectual Property",
+    profileSummary: "A medium-voltage switchgear specialist with extensive R&D and manufacturing expertise, holding seven patents in distribution automation and electrical safety.",
     image: "/images/b-srinivasan.jpg"
   },
   {
     id: "d2",
     name: "Viraj Bansal",
-    title: "Executive Director - Technology & R&D",
-    focus: "Next-Gen Vacuum Interrupters, SF6-Free Switchgear, & Digital Substation SCADA",
-    experience: "Lead Power Systems Architect & IEEE High-Voltage Keynote Speaker",
-    education: "Ph.D. in Power Electronics & Switchgear - IISc Bangalore | M.Tech - IIT Bombay",
-    email: "a.verma@rail-electrification.corp",
-    location: "Technology & Innovation Hub, Bengaluru",
-    achievements: [
-      "Invented patented Axial Magnetic Field contact profile reducing contact erosion rate by 60%",
-      "Directed the R&D team in qualifying the world's first 72.5kV single-break vacuum interrupter for rail",
-      "Authored 34 peer-reviewed IEEE papers on transient recovery voltage in high-speed catenary circuits"
-    ],
-    stats: [
-      { label: "R&D Patents", value: "18 Filed" },
-      { label: "IEEE Publications", value: "34 Papers" },
-      { label: "Lab Certifications", value: "KEMA & CPRI" },
-      { label: "Innovation Budget", value: "8.5% of Revenue" }
-    ],
+    title: "Joint Managing Director, VANS Electroengineerings Ltd.",
+    focus: "Next-Generation Operations",
+    profileSummary: "An Electrical & Electronics Engineer with 6+ years of experience leading strategy, operations and expansion across railway electrification, switchgear and industrial engineering.",
     image: "/images/viraj-bansal.jpg"
   },
   {
     id: "d3",
     name: "Abhishek Saraff",
-    title: "Senior Managing Director - Operations & Quality",
-    focus: "Precision Manufacturing, Six-Sigma Quality Standards, & International Supply Chains",
-    experience: "Excellence in Leadership Award Recipient | 26 Years in Heavy Industrial Manufacturing",
-    education: "Ph.D. in Industrial Engineering - IIT Delhi | Certified Master Black Belt Six-Sigma",
-    email: "sk.mehta@rail-electrification.corp",
-    location: "Manufacturing Mega-Plant, Vadodara & Pune",
-    achievements: [
-      "Engineered automated Industry 4.0 production line yielding 12,000 vacuum interrupters per annum",
-      "Achieved 99.98% first-pass yield in Class 100 cleanroom vacuum furnace assembly",
-      "Honored with the National Rail Leadership Award for zero-failure field record across 10 years"
-    ],
-    stats: [
-      { label: "Annual Capacity", value: "12,000 VCBs" },
-      { label: "Cleanroom Class", value: "ISO Class 5" },
-      { label: "Field Reliability", value: "99.98%" },
-      { label: "Operations Tenure", value: "26 Years" }
-    ],
+    title: "Managing Director, Avadh Rail Infra Ltd.",
+    focus: "Scale & Strategic Growth",
+    profileSummary: "Spearheaded approximately 500% group growth, scaling annual sales to nearly Rs 600 crore across railway infrastructure and engineering businesses. Chairman, CII Uttar Pradesh (2025-26).",
     image: "/images/abhishek-saraff.jpg"
   },
   {
     id: "d4",
     name: "Nitin Jain",
-    title: "Director - International Business & Strategic Growth",
-    focus: "Global Market Expansion, Trans-Continental Rail Alliances, & Trade Partnerships",
-    experience: "Spearheading North American, European, Middle East, & African Railway Market Entry",
-    education: "MBA (International Business) - INSEAD France | B.E. (Mechanical) - Jadavpur University",
-    email: "v.sengupta@rail-electrification.corp",
-    location: "International Office, London & Singapore",
-    achievements: [
-      "Secured $140M long-term supply agreement with European high-speed rail consortium",
-      "Established strategic sales distribution partnerships across 24 countries spanning 5 continents",
-      "Expanded international export revenue share from 12% to 42% of total corporate turnover"
-    ],
-    stats: [
-      { label: "Export Markets", value: "24 Nations" },
-      { label: "Order Book", value: "Rs 3,450 Cr" },
-      { label: "OEM Alliances", value: "15 Global OEMs" },
-      { label: "Export Share", value: "42% of Sales" }
-    ],
+    title: "Founder, Promoter & Joint Managing Director, Concord Control Systems Ltd.",
+    focus: "Innovation-Led Manufacturing",
+    profileSummary: "A seasoned mechanical engineering professional with decades of expertise in innovation-led manufacturing, strategic planning and long-term business growth.",
     image: "/images/nitin-jain.jpg"
   }
 ];

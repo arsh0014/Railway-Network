@@ -94,12 +94,9 @@ export const CountryDetailModal = ({ item, type, onClose }) => {
                 </div>
               </div>
               <div style={{ flex: 1 }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '4px' }}>
+                <div style={{ marginBottom: '4px' }}>
                   <span style={{ fontSize: '11px', fontWeight: '800', color: '#F28C28', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
                     Executive Board of Directors
-                  </span>
-                  <span style={{ fontSize: '10px', background: '#EAF3FA', color: '#0B2A63', padding: '2px 8px', borderRadius: '12px', fontWeight: '700' }}>
-                    {item.location || 'Corporate HQ'}
                   </span>
                 </div>
                 <h2 style={{ fontFamily: 'Outfit, sans-serif', fontSize: '26px', fontWeight: '800', color: '#0B2A63', lineHeight: '1.2' }}>
@@ -123,13 +120,13 @@ export const CountryDetailModal = ({ item, type, onClose }) => {
               </div>
             )}
 
-            {/* Strategic Focus & Summary */}
+            {/* Source document profile */}
             <div style={{ background: '#F8FAFC', border: '1px solid #E2ECF5', borderRadius: '14px', padding: '14px 16px', marginBottom: '16px' }}>
               <div style={{ fontSize: '11px', fontWeight: '800', color: '#0B2A63', textTransform: 'uppercase', marginBottom: '4px', display: 'flex', alignItems: 'center', gap: '6px' }}>
-                <Sparkles size={14} color="#F28C28" /> Strategic Focus & Portfolio Leadership
+                <Sparkles size={14} color="#F28C28" /> {item.focus}
               </div>
               <p style={{ fontSize: '13px', color: '#334155', lineHeight: '1.5', fontWeight: '500' }}>
-                {item.focus}
+                {item.profileSummary}
               </p>
             </div>
 
@@ -150,19 +147,6 @@ export const CountryDetailModal = ({ item, type, onClose }) => {
               </div>
             )}
 
-            {/* Education & Contact Footer */}
-            <div style={{ display: 'grid', gridTemplateColumns: '1.2fr 1fr', gap: '12px', paddingTop: '12px', borderTop: '1px solid #E8EEF5' }}>
-              <div>
-                <div style={{ fontSize: '10px', fontWeight: '700', color: '#6C7D93', textTransform: 'uppercase' }}>Academic Credentials</div>
-                <div style={{ fontSize: '11.5px', fontWeight: '600', color: '#0B2A63', marginTop: '2px' }}>{item.education}</div>
-              </div>
-              <div>
-                <div style={{ fontSize: '10px', fontWeight: '700', color: '#6C7D93', textTransform: 'uppercase' }}>Corporate Inquiries</div>
-                <div style={{ fontSize: '11.5px', fontWeight: '600', color: '#F28C28', marginTop: '2px', display: 'flex', alignItems: 'center', gap: '4px' }}>
-                  <Mail size={12} /> {item.email || 'corporate@rail-electrification.corp'}
-                </div>
-              </div>
-            </div>
           </div>
         )}
 
