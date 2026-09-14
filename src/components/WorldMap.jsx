@@ -2,117 +2,231 @@ import React, { useMemo, useState } from 'react';
 import { geoNaturalEarth1, geoPath } from 'd3-geo';
 import { feature } from 'topojson-client';
 import worldAtlas from 'world-atlas/countries-110m.json';
-import { countryData } from '../data/dashboardData';
+import { countryData, getElectrificationColor } from '../data/dashboardData';
+import CountrySearch from './CountrySearch';
 
-const countryMeta = {
-  // Percentages and route lengths below are taken from global_railway_electrification.pdf.
-  '032': ['ARG', 'Argentina', 0.6, [-64, -39], '220 km / 36,966 km'],
-  '036': ['AUS', 'Australia', 9.1, [134, -25], '3,300 km / 36,064 km'],
-  '040': ['AUT', 'Austria', 72, [14, 47], '4,030 km / 5,600 km'],
-  '056': ['BEL', 'Belgium', 85, [4.7, 50.8], '3,060 km / 3,600 km'],
-  '076': ['BRA', 'Brazil', 4.7, [-52, -10], '1,400 km / 29,850 km'],
-  '124': ['CAN', 'Canada', 0.2, [-106, 57], '<150 km / 49,422 km', '<0.3%'],
-  '152': ['CHL', 'Chile', 22.7, [-71, -33], '1,650 km / 7,281 km'],
-  '156': ['CHN', 'China', 69.2, [105, 35], '110,000 km / 159,000 km'],
-  '250': ['FRA', 'France', 57.1, [2, 46], '15,680 km / 27,483 km'],
-  '276': ['DEU', 'Germany', 62, [10, 51], '20,700 km / 33,401 km'],
-  '356': ['IND', 'India', 95, [79, 22], '65,000+ km / 68,584 km'],
-  '380': ['ITA', 'Italy', 72.1, [12, 42], '12,100 km / 16,782 km'],
-  '392': ['JPN', 'Japan', 68, [138, 37], '18,550 km / 27,268 km'],
-  '398': ['KAZ', 'Kazakhstan', 25.3, [67, 48], '4,200 km / 16,614 km'],
-  '410': ['KOR', 'South Korea', 78, [127.8, 36], '3,250 km / 4,168 km'],
-  '458': ['MYS', 'Malaysia', 41, [102, 4], '760 km / 1,851 km'],
-  '504': ['MAR', 'Morocco', 61.6, [-6, 31], '1,300 km / 2,110 km'],
-  '528': ['NLD', 'Netherlands', 73.9, [5.5, 52.2], '2,380 km / 3,222 km'],
-  '616': ['POL', 'Poland', 62.3, [19, 52], '11,990 km / 19,235 km'],
-  '643': ['RUS', 'Russia', 51.8, [90, 61], '44,300 km / 85,600 km'],
-  '710': ['ZAF', 'South Africa', 35.3, [24, -29], '7,400 km / 20,986 km'],
-  '724': ['ESP', 'Spain', 68.7, [-4, 40], '11,120 km / 16,180 km'],
-  '752': ['SWE', 'Sweden', 75.1, [16, 62], '8,190 km / 10,900 km'],
-  '756': ['CHE', 'Switzerland', 100, [8, 47], '5,317 km / 5,317 km'],
-  '792': ['TUR', 'Turkey', 54.1, [35, 39], '7,100 km / 13,128 km'],
-  '826': ['GBR', 'United Kingdom', 38, [-3, 55], '6,050 km / 15,935 km'],
-  '840': ['USA', 'USA', 0.8, [-102, 38], '2,025 km / 250,000 km', '<1.0%'],
-  '012': ['DZA', 'Algeria', 11.4, [-2, 28], '480 km / 4,200 km'],
-  '682': ['SAU', 'Saudi Arabia', 8.1, [45, 23], '450 km / 5,590 km'],
+// Map label layout configuration for all 30 countries from official source dataset
+const countryLabelLayout = {
+  // ==================== AMERICAS ====================
+  USA: { type: 'direct', pos: [249, 122], displayName: 'USA' },
+  CAN: { type: 'direct', pos: [280, 75], displayName: 'Canada' },
+  BRA: { type: 'direct', pos: [365, 283], displayName: 'Brazil' },
+  ARG: { type: 'direct', pos: [348, 356], displayName: 'Argentina' },
+  CHL: { type: 'callout', anchor: [330, 365], pos: [290, 365], textAnchor: 'end', displayName: 'Chile' },
+
+  // ==================== EUROPE ====================
+  GBR: { type: 'callout', anchor: [494, 90], pos: [462, 74], textAnchor: 'end', displayName: 'United Kingdom' },
+  FRA: { type: 'direct', pos: [496, 116], displayName: 'France' },
+  ESP: { type: 'direct', pos: [491, 136], displayName: 'Spain' },
+  NLD: { type: 'callout', anchor: [512, 95], pos: [500, 56], textAnchor: 'middle', displayName: 'Netherlands' },
+  BEL: { type: 'callout', anchor: [509, 101], pos: [458, 96], textAnchor: 'end', displayName: 'Belgium' },
+  DEU: { type: 'direct', pos: [523, 98], displayName: 'Germany' },
+  CHE: { type: 'callout', anchor: [518, 112], pos: [466, 114], textAnchor: 'end', displayName: 'Switzerland' },
+  ITA: { type: 'direct', pos: [530, 128], displayName: 'Italy' },
+  AUT: { type: 'callout', anchor: [532, 109], pos: [568, 112], textAnchor: 'start', displayName: 'Austria' },
+  POL: { type: 'direct', pos: [544, 96], displayName: 'Poland' },
+  SWE: { type: 'direct', pos: [534, 68], displayName: 'Sweden' },
+  RUS: { type: 'direct', pos: [690, 68], displayName: 'Russia' },
+
+  // ==================== AFRICA & MIDDLE EAST ====================
+  MAR: { type: 'direct', pos: [478, 160], displayName: 'Morocco' },
+  DZA: { type: 'direct', pos: [508, 168], displayName: 'Algeria' },
+  ZAF: { type: 'direct', pos: [562, 338], displayName: 'South Africa' },
+  TUR: { type: 'direct', pos: [584, 134], displayName: 'Turkey' },
+  SAU: { type: 'direct', pos: [612, 178], displayName: 'Saudi Arabia' },
+
+  // ==================== ASIA & PACIFIC ====================
+  KAZ: { type: 'direct', pos: [653, 102], displayName: 'Kazakhstan' },
+  UZB: { type: 'callout', anchor: [649, 126], pos: [618, 142], textAnchor: 'end', displayName: 'Uzbekistan' },
+  IND: { type: 'direct', pos: [699, 183], displayName: 'India' },
+  CHN: { type: 'direct', pos: [748, 142], displayName: 'China' },
+  KOR: { type: 'callout', anchor: [808, 142], pos: [812, 168], textAnchor: 'middle', displayName: 'South Korea' },
+  JPN: { type: 'callout', anchor: [830, 138], pos: [864, 134], textAnchor: 'start', displayName: 'Japan' },
+  MYS: { type: 'callout', anchor: [780, 240], pos: [752, 260], textAnchor: 'end', displayName: 'Malaysia' },
+  AUS: { type: 'direct', pos: [834, 328], displayName: 'Australia' }
 };
 
-const palette = { red: '#A71920', low: '#D9532F', orange: '#F28C28', blue: '#2B78C5', navy: '#0B2A63' };
-const getColor = (value) => value >= 80 ? palette.navy : value >= 60 ? palette.blue : value >= 30 ? palette.orange : value >= 10 ? palette.low : palette.red;
-// Keep the default map readable; every country remains interactive for details.
-const visibleLabelIds = new Set(['USA', 'CAN', 'BRA', 'CHL', 'ARG', 'RUS', 'CHN', 'IND', 'JPN', 'AUS', 'KAZ', 'TUR', 'ESP', 'SWE', 'ZAF', 'MAR', 'SAU', 'MYS', 'KOR']);
+const palette = {
+  red: '#A71920',    // 0–10% Untapped
+  low: '#D9532F',    // 10–30% Low
+  orange: '#F28C28', // 30–60% Moderate
+  blue: '#2B78C5',   // 60–80% Substantial
+  navy: '#0B2A63'    // 80–100% Fully Electrified
+};
 
 export const WorldMap = ({ onSelectCountry, onHoverCountry }) => {
   const [hoveredCountryId, setHoveredCountryId] = useState(null);
   const [zoom, setZoom] = useState(1);
   const [pan, setPan] = useState({ x: 0, y: 0 });
   const [dragStart, setDragStart] = useState(null);
+
   const countries = useMemo(() => feature(worldAtlas, worldAtlas.objects.countries).features, []);
   const projection = useMemo(() => geoNaturalEarth1().fitExtent([[18, 18], [982, 492]], { type: 'FeatureCollection', features: countries }), [countries]);
   const path = useMemo(() => geoPath(projection), [projection]);
 
-  const handleEnter = (meta, event) => {
-    if (!meta) return;
-    const [id, name, value] = meta;
-    setHoveredCountryId(id);
-    const fullCountry = countryData.find((country) => country.id === id) || { id, name };
-    onHoverCountry?.({ ...fullCountry, id, name, percentage: value, routeSummary: meta[4], displayPercentage: meta[5] || `${value}%`, x: event.clientX, y: event.clientY });
+  // Lookup map from numeric 3-digit string to country record
+  const countryByNumericId = useMemo(() => {
+    const map = new Map();
+    countryData.forEach((country) => {
+      map.set(country.numericId, country);
+      map.set(country.id, country);
+    });
+    return map;
+  }, []);
+
+  const handleEnter = (country, event) => {
+    if (!country) return;
+    setHoveredCountryId(country.id);
+    onHoverCountry?.({
+      ...country,
+      x: event.clientX,
+      y: event.clientY
+    });
   };
-  const handleLeave = () => { setHoveredCountryId(null); onHoverCountry?.(null); };
-  const handleClick = (meta) => {
-    if (!meta) return;
-    const [id, name, value] = meta;
-    onSelectCountry?.({ ...(countryData.find((country) => country.id === id) || {}), id, name, percentage: value, displayPercentage: meta[5] || `${value}%`, routeSummary: meta[4] });
+
+  const handleLeave = () => {
+    setHoveredCountryId(null);
+    onHoverCountry?.(null);
+  };
+
+  const handleClick = (country) => {
+    if (!country) return;
+    onSelectCountry?.(country);
   };
 
   const changeZoom = (amount) => setZoom((current) => Math.min(3, Math.max(1, Number((current + amount).toFixed(1)))));
   const resetView = () => { setZoom(1); setPan({ x: 0, y: 0 }); };
+
   const handleWheel = (event) => {
     event.preventDefault();
     changeZoom(event.deltaY < 0 ? 0.2 : -0.2);
   };
+
   const handlePointerDown = (event) => {
     if (zoom === 1) return;
     event.currentTarget.setPointerCapture(event.pointerId);
     setDragStart({ x: event.clientX - pan.x, y: event.clientY - pan.y });
   };
+
   const handlePointerMove = (event) => {
     if (!dragStart) return;
     setPan({ x: event.clientX - dragStart.x, y: event.clientY - dragStart.y });
   };
+
   const stopDragging = () => setDragStart(null);
 
-  return <div className="map-container-card">
-    <div className="map-zoom-controls" aria-label="Map zoom controls">
-      <button type="button" onClick={() => changeZoom(0.2)} aria-label="Zoom in">+</button>
-      <span>{Math.round(zoom * 100)}%</span>
-      <button type="button" onClick={() => changeZoom(-0.2)} aria-label="Zoom out">−</button>
-      <button type="button" onClick={resetView} aria-label="Reset map view">Reset</button>
+  return (
+    <div className="map-container-card">
+      {/* Floating Centered Country Search Control */}
+      <div className="map-search-control">
+        <CountrySearch onSelectCountry={onSelectCountry} />
+      </div>
+
+      <div className="map-zoom-controls" aria-label="Map zoom controls">
+        <button type="button" onClick={() => changeZoom(0.2)} aria-label="Zoom in">+</button>
+        <span>{Math.round(zoom * 100)}%</span>
+        <button type="button" onClick={() => changeZoom(-0.2)} aria-label="Zoom out">−</button>
+        <button type="button" onClick={resetView} aria-label="Reset map view">Reset</button>
+      </div>
+
+      <svg 
+        className={`world-map-svg${zoom > 1 ? ' is-zoomed' : ''}`} 
+        viewBox="0 0 1000 520" 
+        preserveAspectRatio="xMidYMid meet" 
+        role="img" 
+        aria-label="World railway network electrification map" 
+        onWheel={handleWheel} 
+        onPointerDown={handlePointerDown} 
+        onPointerMove={handlePointerMove} 
+        onPointerUp={stopDragging} 
+        onPointerCancel={stopDragging}
+      >
+        <g transform={`translate(${500 + pan.x} ${260 + pan.y}) scale(${zoom}) translate(-500 -260)`}>
+          {/* Countries polygons layer */}
+          <g className="map-country-layer">
+            {countries.map((countryFeature, idx) => {
+              const code = String(countryFeature.id).padStart(3, '0');
+              const country = countryByNumericId.get(code);
+              const fillColor = country ? getElectrificationColor(country.percentage) : '#E7EDF3';
+              const isActive = country && country.id === hoveredCountryId;
+
+              return (
+                <path 
+                  key={`poly-${countryFeature.id || idx}-${idx}`} 
+                  d={path(countryFeature)} 
+                  fill={fillColor} 
+                  className={`map-country-path${isActive ? ' active' : ''}`} 
+                  onMouseEnter={(event) => handleEnter(country, event)} 
+                  onMouseLeave={handleLeave} 
+                  onClick={() => handleClick(country)} 
+                />
+              );
+            })}
+          </g>
+
+          {/* Leader lines layer for callout countries */}
+          <g className="map-leader-lines-layer" pointerEvents="none">
+            {countryData.map((country) => {
+              const config = countryLabelLayout[country.id];
+              if (!config || config.type !== 'callout') return null;
+
+              const [ax, ay] = config.anchor;
+              const [lx, ly] = config.pos;
+
+              return (
+                <g key={`leader-${country.id}`}>
+                  <circle cx={ax} cy={ay} r="1.4" className="map-leader-dot" />
+                  <polyline 
+                    points={`${ax},${ay} ${lx},${ly}`} 
+                    className="map-leader-line"
+                  />
+                </g>
+              );
+            })}
+          </g>
+
+          {/* All 30 Country labels layer */}
+          <g className="map-labels-layer" pointerEvents="none">
+            {countryData.map((country) => {
+              const config = countryLabelLayout[country.id];
+              if (!config) return null;
+
+              const isCallout = config.type === 'callout';
+              const [x, y] = config.pos;
+              const textAnchor = config.textAnchor || 'middle';
+              const displayName = config.displayName || country.name;
+              const displayPct = country.displayPercentage || `${country.percentage}%`;
+              const isShort = displayName.length <= 7;
+              const fontSize = isShort ? '8.5px' : '7.5px';
+
+              return (
+                <text 
+                  key={`label-${country.id}`} 
+                  x={x} 
+                  y={y} 
+                  textAnchor={textAnchor}
+                  className={`map-label${isCallout ? ' map-label-callout' : ''}`}
+                  style={{ fontSize }}
+                >
+                  <tspan x={x} dy="-2">{displayName}</tspan>
+                  <tspan x={x} dy="9.5" className="map-label-sub">{displayPct}</tspan>
+                </text>
+              );
+            })}
+          </g>
+        </g>
+      </svg>
+
+      {/* Existing Legend */}
+      <div className="map-legend-bar">
+        <div className="legend-item"><span className="legend-color-dot" style={{ backgroundColor: palette.red }} />0 – 10% (Untapped)</div>
+        <div className="legend-item"><span className="legend-color-dot" style={{ backgroundColor: palette.low }} />10 – 30% (Low)</div>
+        <div className="legend-item"><span className="legend-color-dot" style={{ backgroundColor: palette.orange }} />30 – 60% (Moderate)</div>
+        <div className="legend-item"><span className="legend-color-dot" style={{ backgroundColor: palette.blue }} />60 – 80% (Substantial)</div>
+        <div className="legend-item"><span className="legend-color-dot" style={{ backgroundColor: palette.navy }} />80 – 100% (Fully Electrified)</div>
+      </div>
     </div>
-    <svg className={`world-map-svg${zoom > 1 ? ' is-zoomed' : ''}`} viewBox="0 0 1000 520" preserveAspectRatio="xMidYMid meet" role="img" aria-label="World railway network electrification map" onWheel={handleWheel} onPointerDown={handlePointerDown} onPointerMove={handlePointerMove} onPointerUp={stopDragging} onPointerCancel={stopDragging}>
-      <g transform={`translate(${500 + pan.x} ${260 + pan.y}) scale(${zoom}) translate(-500 -260)`}>
-      <g className="map-country-layer">
-        {countries.map((country) => {
-          const meta = countryMeta[String(country.id).padStart(3, '0')];
-          return <path key={country.id} d={path(country)} fill={meta ? getColor(meta[2]) : '#E7EDF3'} className={`map-country-path${meta?.[0] === hoveredCountryId ? ' active' : ''}`} onMouseEnter={(event) => handleEnter(meta, event)} onMouseLeave={handleLeave} onClick={() => handleClick(meta)} />;
-        })}
-      </g>
-      {Object.values(countryMeta).map((meta) => {
-        if (!visibleLabelIds.has(meta[0])) return null;
-        const point = projection(meta[3]);
-        const size = meta[1].length > 8 ? '7px' : '9px';
-        return <text key={meta[0]} x={point[0]} y={point[1]} className="map-label" style={{ fontSize: size }}><tspan x={point[0]} dy="-2">{meta[1]}</tspan><tspan x={point[0]} dy="10" className="map-label-sub">{meta[5] || `${meta[2]}%`}</tspan></text>;
-      })}
-      </g>
-    </svg>
-    <div className="map-legend-bar">
-      <div className="legend-item"><span className="legend-color-dot" style={{ backgroundColor: palette.red }} />0 – 10% (Untapped)</div>
-      <div className="legend-item"><span className="legend-color-dot" style={{ backgroundColor: palette.low }} />10 – 30% (Low)</div>
-      <div className="legend-item"><span className="legend-color-dot" style={{ backgroundColor: palette.orange }} />30 – 60% (Moderate)</div>
-      <div className="legend-item"><span className="legend-color-dot" style={{ backgroundColor: palette.blue }} />60 – 80% (Substantial)</div>
-      <div className="legend-item"><span className="legend-color-dot" style={{ backgroundColor: palette.navy }} />80 – 100% (Fully Electrified)</div>
-    </div>
-  </div>;
+  );
 };
 
 export default WorldMap;

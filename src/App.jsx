@@ -10,6 +10,7 @@ import SecuredVansMarket from './components/SecuredVansMarket';
 import UpcomingProducts from './components/UpcomingProducts';
 import CountryTooltip from './components/CountryTooltip';
 import CountryDetailModal from './components/CountryDetailModal';
+import CountrySearch from './components/CountrySearch';
 import { countryData } from './data/dashboardData';
 
 export function App() {

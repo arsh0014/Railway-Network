@@ -24,7 +24,7 @@ export const TopCountries = () => {
                 className="vertical-bar" 
                 style={{ 
                   height: `${heightPx}px`,
-                  backgroundColor: '#A71920'
+                  backgroundColor: item.color || '#0B2A63'
                 }}
                 title={`${item.country}: ${item.value}% (${item.km}) - ${item.growth}`}
               >

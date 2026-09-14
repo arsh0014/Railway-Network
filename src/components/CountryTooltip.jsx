@@ -1,17 +1,25 @@
 import React from 'react';
+import { getElectrificationColor, getElectrificationCategory } from '../data/dashboardData';
 
 export const CountryTooltip = ({ countryData }) => {
   if (!countryData) return null;
 
-  const { name, percentage, displayPercentage, routeSummary, category, investment, x, y } = countryData;
+  const {
+    name,
+    percentage,
+    displayPercentage,
+    category,
+    region,
+    routeKm,
+    electrifiedKm,
+    operator,
+    x,
+    y
+  } = countryData;
 
-  const getStatusColor = (pct) => {
-    if (pct >= 80) return '#0B2A63';
-    if (pct >= 60) return '#2B78C5';
-    if (pct >= 30) return '#F28C28';
-    if (pct >= 10) return '#D9532F';
-    return '#A71920';
-  };
+  const badgeColor = getElectrificationColor(percentage);
+  const resolvedCategory = category || getElectrificationCategory(percentage);
+  const formattedPct = displayPercentage || `${percentage}%`;
 
   return (
     <div 
@@ -25,29 +33,48 @@ export const CountryTooltip = ({ countryData }) => {
         <span className="tooltip-country-name">{name}</span>
         <span 
           className="tooltip-badge" 
-          style={{ backgroundColor: getStatusColor(percentage) }}
+          style={{ backgroundColor: badgeColor }}
         >
-          {displayPercentage || `${percentage}%`} Electrified
+          {formattedPct} Electrified
         </span>
       </div>
 
-      {routeSummary && (
-        <div className="tooltip-row">
-          <span className="tooltip-label">Electrified / total:</span>
-          <span className="tooltip-value">{routeSummary}</span>
-        </div>
-      )}
+      <div className="tooltip-row">
+        <span className="tooltip-label">Country:</span>
+        <span className="tooltip-value">{name}</span>
+      </div>
+
+      <div className="tooltip-row">
+        <span className="tooltip-label">Electrification:</span>
+        <span className="tooltip-value" style={{ color: badgeColor, fontWeight: '800' }}>
+          {formattedPct}
+        </span>
+      </div>
 
       <div className="tooltip-row">
         <span className="tooltip-label">Category:</span>
-        <span className="tooltip-value">{category || 'Regional Rail'}</span>
+        <span className="tooltip-value">{resolvedCategory}</span>
       </div>
 
-      {investment && (
-        <div className="tooltip-row" style={{ flexDirection: 'column', gap: '2px', marginTop: '4px' }}>
-          <span className="tooltip-label">Investment Potential:</span>
-          <span className="tooltip-value" style={{ fontSize: '10.5px', color: '#17305C' }}>
-            {investment}
+      {region && (
+        <div className="tooltip-row">
+          <span className="tooltip-label">Region:</span>
+          <span className="tooltip-value">{region}</span>
+        </div>
+      )}
+
+      {routeKm && electrifiedKm && (
+        <div className="tooltip-row">
+          <span className="tooltip-label">Electrified / Total:</span>
+          <span className="tooltip-value">{electrifiedKm} / {routeKm}</span>
+        </div>
+      )}
+
+      {operator && (
+        <div className="tooltip-row" style={{ marginTop: '2px', borderTop: '1px dashed #E2ECF5', paddingTop: '4px' }}>
+          <span className="tooltip-label">Operator:</span>
+          <span className="tooltip-value" style={{ fontSize: '11px', color: '#17305C' }}>
+            {operator}
           </span>
         </div>
       )}
