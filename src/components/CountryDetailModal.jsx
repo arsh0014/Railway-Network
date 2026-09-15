@@ -154,101 +154,108 @@ export const CountryDetailModal = ({ item, type, onClose }) => {
         {/* ========================================================
             COUNTRY DETAIL MODAL
         ======================================================== */}
-        {type === 'country' && (
-          <div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '14px', marginBottom: '18px' }}>
-              <div style={{ 
-                width: '46px', 
-                height: '46px', 
-                borderRadius: '12px', 
-                background: '#EAF3FA', 
-                display: 'flex', 
-                alignItems: 'center', 
-                justifyContent: 'center',
-                color: '#0B2A63'
-              }}>
-                <Globe size={24} />
-              </div>
-              <div style={{ flex: 1 }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap' }}>
-                  <h2 style={{ fontFamily: 'Outfit, sans-serif', fontSize: '26px', fontWeight: '800', color: '#0B2A63' }}>
-                    {item.name}
-                  </h2>
-                  <span style={{ 
-                    fontSize: '12px', 
-                    fontWeight: '800', 
-                    color: '#ffffff', 
-                    background: getElectrificationColor(item.percentage),
-                    padding: '3px 10px', 
-                    borderRadius: '20px' 
-                  }}>
-                    {item.displayPercentage || `${item.percentage}%`} Electrified
-                  </span>
-                </div>
-                <div style={{ fontSize: '13px', fontWeight: '600', color: '#F28C28', display: 'flex', alignItems: 'center', gap: '8px' }}>
-                  <span>{item.category || getElectrificationCategory(item.percentage)}</span>
-                  {item.region && <span style={{ color: '#6C7D93', fontSize: '12px' }}>• {item.region}</span>}
-                </div>
-              </div>
-            </div>
+        {type === 'country' && (() => {
+          const isDataNA = item.percentage === null || item.percentage === undefined;
+          const badgeColor = getElectrificationColor(item.percentage);
+          const displayPct = isDataNA ? 'N/A' : (item.displayPercentage || item.displayElectrification || `${item.percentage}%`);
 
-            {/* 4 Core Stat Cards */}
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '10px', marginBottom: '18px' }}>
-              <div style={{ background: '#F4F8FC', padding: '12px 10px', borderRadius: '12px', border: '1px solid #DDE7F0', textAlign: 'center' }}>
-                <div style={{ fontSize: '10px', fontWeight: '700', color: '#6C7D93' }}>TOTAL NETWORK</div>
-                <div style={{ fontSize: '15px', fontWeight: '800', color: '#0B2A63', marginTop: '3px' }}>{item.routeKm || 'N/A'}</div>
-              </div>
-              <div style={{ background: '#F4F8FC', padding: '12px 10px', borderRadius: '12px', border: '1px solid #DDE7F0', textAlign: 'center' }}>
-                <div style={{ fontSize: '10px', fontWeight: '700', color: '#6C7D93' }}>ELECTRIFIED</div>
-                <div style={{ fontSize: '15px', fontWeight: '800', color: '#0B2A63', marginTop: '3px' }}>{item.electrifiedKm || '0 km'}</div>
-              </div>
-              <div style={{ background: '#F4F8FC', padding: '12px 10px', borderRadius: '12px', border: '1px solid #DDE7F0', textAlign: 'center' }}>
-                <div style={{ fontSize: '10px', fontWeight: '700', color: '#6C7D93' }}>NON-ELECTRIFIED</div>
-                <div style={{ fontSize: '15px', fontWeight: '800', color: '#A71920', marginTop: '3px' }}>{item.dieselKm || '0 km'}</div>
-              </div>
-              <div style={{ background: '#F4F8FC', padding: '12px 10px', borderRadius: '12px', border: '1px solid #DDE7F0', textAlign: 'center' }}>
-                <div style={{ fontSize: '10px', fontWeight: '700', color: '#6C7D93' }}>ELECTRIFICATION RATE</div>
-                <div style={{ fontSize: '15px', fontWeight: '800', color: getElectrificationColor(item.percentage), marginTop: '3px' }}>
-                  {item.displayPercentage || `${item.percentage}%`}
+          return (
+            <div>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '14px', marginBottom: '18px' }}>
+                <div style={{ 
+                  width: '46px', 
+                  height: '46px', 
+                  borderRadius: '12px', 
+                  background: '#EAF3FA', 
+                  display: 'flex', 
+                  alignItems: 'center', 
+                  justifyContent: 'center',
+                  color: '#0B2A63'
+                }}>
+                  <Globe size={24} />
                 </div>
-              </div>
-            </div>
-
-            {/* Grid & Operational Standards */}
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
-              <div style={{ background: '#F8FAFC', border: '1px solid #E2ECF5', borderRadius: '12px', padding: '14px 16px' }}>
-                <div style={{ fontSize: '10px', fontWeight: '800', color: '#64748B', letterSpacing: '0.5px' }}>PRIMARY OPERATOR</div>
-                <div style={{ fontSize: '14px', fontWeight: '800', color: '#0B2A63', marginTop: '4px' }}>
-                  {item.operator || 'National Railway Ministry'} {item.operatorHQ && <span style={{ fontSize: '12px', fontWeight: '600', color: '#64748B' }}>• HQ: {item.operatorHQ}</span>}
-                </div>
-                {item.officialWebsite && (
-                  <div style={{ fontSize: '12px', color: '#2B78C5', marginTop: '6px', display: 'flex', alignItems: 'center', gap: '4px', fontWeight: '600' }}>
-                    <Globe size={13} />
-                    <a 
-                      href={`https://${item.officialWebsite}`} 
-                      target="_blank" 
-                      rel="noopener noreferrer"
-                      style={{ color: '#2B78C5', textDecoration: 'none' }}
-                      onMouseEnter={(e) => e.target.style.textDecoration = 'underline'}
-                      onMouseLeave={(e) => e.target.style.textDecoration = 'none'}
-                    >
-                      {item.officialWebsite}
-                    </a>
+                <div style={{ flex: 1 }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap' }}>
+                    <h2 style={{ fontFamily: 'Outfit, sans-serif', fontSize: '26px', fontWeight: '800', color: '#0B2A63' }}>
+                      {item.name}
+                    </h2>
+                    <span style={{ 
+                      fontSize: '12px', 
+                      fontWeight: '800', 
+                      color: '#ffffff', 
+                      background: badgeColor,
+                      padding: '3px 10px', 
+                      borderRadius: '20px' 
+                    }}>
+                      {isDataNA ? 'Electrification: N/A' : `${displayPct} Electrified`}
+                    </span>
                   </div>
-                )}
-              </div>
-              <div style={{ background: '#F8FAFC', border: '1px solid #E2ECF5', borderRadius: '12px', padding: '14px 16px' }}>
-                <div style={{ fontSize: '10px', fontWeight: '800', color: '#64748B', letterSpacing: '0.5px' }}>VOLTAGE & POWER SYSTEM</div>
-                <div style={{ fontSize: '14px', fontWeight: '800', color: '#0B2A63', marginTop: '4px' }}>
-                  {item.powerStandard || '25 kV 50 Hz AC'}
+                  <div style={{ fontSize: '13px', fontWeight: '600', color: '#F28C28', display: 'flex', alignItems: 'center', gap: '8px', marginTop: '2px' }}>
+                    <span>{item.category || getElectrificationCategory(item.percentage)}</span>
+                    {item.region && <span style={{ color: '#6C7D93', fontSize: '12px' }}>• {item.region}</span>}
+                    {item.source && <span style={{ color: '#0B2A63', fontSize: '11px', background: '#EEF4FA', padding: '1px 6px', borderRadius: '6px' }}>{item.source}</span>}
+                  </div>
                 </div>
-                <div style={{ fontSize: '11.5px', color: '#64748B', marginTop: '6px' }}>
-                  Category: <strong style={{ color: getElectrificationColor(item.percentage) }}>{item.category || getElectrificationCategory(item.percentage)}</strong>
+              </div>
+
+              {/* 4 Core Stat Cards */}
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '10px', marginBottom: '18px' }}>
+                <div style={{ background: '#F4F8FC', padding: '12px 10px', borderRadius: '12px', border: '1px solid #DDE7F0', textAlign: 'center' }}>
+                  <div style={{ fontSize: '10px', fontWeight: '700', color: '#6C7D93' }}>TOTAL NETWORK</div>
+                  <div style={{ fontSize: '15px', fontWeight: '800', color: '#0B2A63', marginTop: '3px' }}>{item.routeKm || 'N/A'}</div>
+                </div>
+                <div style={{ background: '#F4F8FC', padding: '12px 10px', borderRadius: '12px', border: '1px solid #DDE7F0', textAlign: 'center' }}>
+                  <div style={{ fontSize: '10px', fontWeight: '700', color: '#6C7D93' }}>ELECTRIFIED</div>
+                  <div style={{ fontSize: '15px', fontWeight: '800', color: '#0B2A63', marginTop: '3px' }}>{isDataNA ? 'Data N/A' : (item.electrifiedKm || '0 km')}</div>
+                </div>
+                <div style={{ background: '#F4F8FC', padding: '12px 10px', borderRadius: '12px', border: '1px solid #DDE7F0', textAlign: 'center' }}>
+                  <div style={{ fontSize: '10px', fontWeight: '700', color: '#6C7D93' }}>NON-ELECTRIFIED</div>
+                  <div style={{ fontSize: '15px', fontWeight: '800', color: isDataNA ? '#6C7D93' : '#A71920', marginTop: '3px' }}>{isDataNA ? 'Data N/A' : (item.dieselKm || '0 km')}</div>
+                </div>
+                <div style={{ background: '#F4F8FC', padding: '12px 10px', borderRadius: '12px', border: '1px solid #DDE7F0', textAlign: 'center' }}>
+                  <div style={{ fontSize: '10px', fontWeight: '700', color: '#6C7D93' }}>ELECTRIFICATION RATE</div>
+                  <div style={{ fontSize: '15px', fontWeight: '800', color: badgeColor, marginTop: '3px' }}>
+                    {displayPct}
+                  </div>
+                </div>
+              </div>
+
+              {/* Grid & Operational Standards */}
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
+                <div style={{ background: '#F8FAFC', border: '1px solid #E2ECF5', borderRadius: '12px', padding: '14px 16px' }}>
+                  <div style={{ fontSize: '10px', fontWeight: '800', color: '#64748B', letterSpacing: '0.5px' }}>PRIMARY OPERATOR</div>
+                  <div style={{ fontSize: '14px', fontWeight: '800', color: '#0B2A63', marginTop: '4px' }}>
+                    {item.operator || 'National Railway Ministry'} {item.operatorHQ && <span style={{ fontSize: '12px', fontWeight: '600', color: '#64748B' }}>• HQ: {item.operatorHQ}</span>}
+                  </div>
+                  {item.officialWebsite && (
+                    <div style={{ fontSize: '12px', color: '#2B78C5', marginTop: '6px', display: 'flex', alignItems: 'center', gap: '4px', fontWeight: '600' }}>
+                      <Globe size={13} />
+                      <a 
+                        href={`https://${item.officialWebsite}`} 
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                        style={{ color: '#2B78C5', textDecoration: 'none' }}
+                        onMouseEnter={(e) => e.target.style.textDecoration = 'underline'}
+                        onMouseLeave={(e) => e.target.style.textDecoration = 'none'}
+                      >
+                        {item.officialWebsite}
+                      </a>
+                    </div>
+                  )}
+                </div>
+                <div style={{ background: '#F8FAFC', border: '1px solid #E2ECF5', borderRadius: '12px', padding: '14px 16px' }}>
+                  <div style={{ fontSize: '10px', fontWeight: '800', color: '#64748B', letterSpacing: '0.5px' }}>VOLTAGE & POWER SYSTEM</div>
+                  <div style={{ fontSize: '14px', fontWeight: '800', color: '#0B2A63', marginTop: '4px' }}>
+                    {item.powerStandard || '25 kV 50 Hz AC'}
+                  </div>
+                  <div style={{ fontSize: '11.5px', color: '#64748B', marginTop: '6px' }}>
+                    Category: <strong style={{ color: badgeColor }}>{item.category || getElectrificationCategory(item.percentage)}</strong>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-        )}
+          );
+        })()}
 
         {/* ========================================================
             UPCOMING PRODUCT DETAIL MODAL

@@ -24,6 +24,9 @@ export const CountrySearch = ({ onSelectCountry }) => {
     if (!q) return true;
     return (
       c.name.toLowerCase().includes(q) ||
+      c.id.toLowerCase().includes(q) ||
+      (c.numericId && c.numericId.includes(q)) ||
+      (c.aliases && c.aliases.some((a) => a.toLowerCase().includes(q))) ||
       c.region.toLowerCase().includes(q) ||
       (c.operator && c.operator.toLowerCase().includes(q))
     );

@@ -5,45 +5,60 @@ import worldAtlas from 'world-atlas/countries-110m.json';
 import { countryData, getElectrificationColor } from '../data/dashboardData';
 import CountrySearch from './CountrySearch';
 
-// Map label layout configuration for all 30 countries from official source dataset
+// Map label layout configuration for all 45 countries (30 existing + 15 from Global Railway Directory)
 const countryLabelLayout = {
-  // ==================== AMERICAS ====================
+  // ==================== NORTH & SOUTH AMERICA ====================
   USA: { type: 'direct', pos: [249, 122], displayName: 'USA' },
   CAN: { type: 'direct', pos: [280, 75], displayName: 'Canada' },
+  MEX: { type: 'direct', pos: [244, 180], displayName: 'Mexico' },
+  COL: { type: 'callout', anchor: [312, 240], pos: [264, 238], textAnchor: 'end', displayName: 'Colombia' },
+  PER: { type: 'callout', anchor: [306, 280], pos: [264, 280], textAnchor: 'end', displayName: 'Peru' },
   BRA: { type: 'direct', pos: [365, 283], displayName: 'Brazil' },
-  ARG: { type: 'direct', pos: [348, 356], displayName: 'Argentina' },
   CHL: { type: 'callout', anchor: [330, 365], pos: [290, 365], textAnchor: 'end', displayName: 'Chile' },
+  ARG: { type: 'direct', pos: [348, 356], displayName: 'Argentina' },
 
   // ==================== EUROPE ====================
-  GBR: { type: 'callout', anchor: [494, 90], pos: [462, 74], textAnchor: 'end', displayName: 'United Kingdom' },
-  FRA: { type: 'direct', pos: [496, 116], displayName: 'France' },
+  GBR: { type: 'callout', anchor: [494, 90], pos: [460, 72], textAnchor: 'end', displayName: 'United Kingdom' },
+  FRA: { type: 'direct', pos: [492, 116], displayName: 'France' },
   ESP: { type: 'direct', pos: [491, 136], displayName: 'Spain' },
-  NLD: { type: 'callout', anchor: [512, 95], pos: [500, 56], textAnchor: 'middle', displayName: 'Netherlands' },
-  BEL: { type: 'callout', anchor: [509, 101], pos: [458, 96], textAnchor: 'end', displayName: 'Belgium' },
-  DEU: { type: 'direct', pos: [523, 98], displayName: 'Germany' },
+  NLD: { type: 'callout', anchor: [512, 95], pos: [496, 54], textAnchor: 'middle', displayName: 'Netherlands' },
+  BEL: { type: 'callout', anchor: [509, 101], pos: [456, 96], textAnchor: 'end', displayName: 'Belgium' },
+  DEU: { type: 'direct', pos: [523, 97], displayName: 'Germany' },
   CHE: { type: 'callout', anchor: [518, 112], pos: [466, 114], textAnchor: 'end', displayName: 'Switzerland' },
-  ITA: { type: 'direct', pos: [530, 128], displayName: 'Italy' },
-  AUT: { type: 'callout', anchor: [532, 109], pos: [568, 112], textAnchor: 'start', displayName: 'Austria' },
-  POL: { type: 'direct', pos: [544, 96], displayName: 'Poland' },
+  CZE: { type: 'callout', anchor: [535, 103], pos: [568, 80], textAnchor: 'start', displayName: 'Czech Rep.' },
+  AUT: { type: 'callout', anchor: [532, 109], pos: [562, 115], textAnchor: 'start', displayName: 'Austria' },
+  ITA: { type: 'direct', pos: [530, 130], displayName: 'Italy' },
+  POL: { type: 'direct', pos: [544, 92], displayName: 'Poland' },
+  UKR: { type: 'direct', pos: [582, 101], displayName: 'Ukraine' },
+  ROU: { type: 'callout', anchor: [558, 116], pos: [558, 134], textAnchor: 'middle', displayName: 'Romania' },
   SWE: { type: 'direct', pos: [534, 68], displayName: 'Sweden' },
   RUS: { type: 'direct', pos: [690, 68], displayName: 'Russia' },
 
   // ==================== AFRICA & MIDDLE EAST ====================
   MAR: { type: 'direct', pos: [478, 160], displayName: 'Morocco' },
   DZA: { type: 'direct', pos: [508, 168], displayName: 'Algeria' },
-  ZAF: { type: 'direct', pos: [562, 338], displayName: 'South Africa' },
+  EGY: { type: 'direct', pos: [574, 172], displayName: 'Egypt' },
   TUR: { type: 'direct', pos: [584, 134], displayName: 'Turkey' },
-  SAU: { type: 'direct', pos: [612, 178], displayName: 'Saudi Arabia' },
+  SAU: { type: 'direct', pos: [612, 180], displayName: 'Saudi Arabia' },
+  IRN: { type: 'direct', pos: [634, 154], displayName: 'Iran' },
+  KEN: { type: 'direct', pos: [597, 250], displayName: 'Kenya' },
+  ZAF: { type: 'direct', pos: [562, 338], displayName: 'South Africa' },
 
   // ==================== ASIA & PACIFIC ====================
   KAZ: { type: 'direct', pos: [653, 102], displayName: 'Kazakhstan' },
-  UZB: { type: 'callout', anchor: [649, 126], pos: [618, 142], textAnchor: 'end', displayName: 'Uzbekistan' },
+  UZB: { type: 'callout', anchor: [649, 126], pos: [618, 140], textAnchor: 'end', displayName: 'Uzbekistan' },
+  PAK: { type: 'direct', pos: [668, 162], displayName: 'Pakistan' },
   IND: { type: 'direct', pos: [699, 183], displayName: 'India' },
+  LKA: { type: 'callout', anchor: [707, 228], pos: [736, 236], textAnchor: 'start', displayName: 'Sri Lanka' },
   CHN: { type: 'direct', pos: [748, 142], displayName: 'China' },
+  THA: { type: 'callout', anchor: [757, 207], pos: [728, 208], textAnchor: 'end', displayName: 'Thailand' },
+  VNM: { type: 'callout', anchor: [770, 202], pos: [802, 204], textAnchor: 'start', displayName: 'Vietnam' },
+  MYS: { type: 'callout', anchor: [780, 240], pos: [744, 256], textAnchor: 'end', displayName: 'Malaysia' },
+  IDN: { type: 'direct', pos: [808, 266], displayName: 'Indonesia' },
   KOR: { type: 'callout', anchor: [808, 142], pos: [812, 168], textAnchor: 'middle', displayName: 'South Korea' },
   JPN: { type: 'callout', anchor: [830, 138], pos: [864, 134], textAnchor: 'start', displayName: 'Japan' },
-  MYS: { type: 'callout', anchor: [780, 240], pos: [752, 260], textAnchor: 'end', displayName: 'Malaysia' },
-  AUS: { type: 'direct', pos: [834, 328], displayName: 'Australia' }
+  AUS: { type: 'direct', pos: [834, 328], displayName: 'Australia' },
+  NZL: { type: 'direct', pos: [912, 376], displayName: 'New Zealand' }
 };
 
 const palette = {
@@ -51,7 +66,8 @@ const palette = {
   low: '#D9532F',    // 10–30% Low
   orange: '#F28C28', // 30–60% Moderate
   blue: '#2B78C5',   // 60–80% Substantial
-  navy: '#0B2A63'    // 80–100% Fully Electrified
+  navy: '#0B2A63',   // 80–100% Fully Electrified
+  grey: '#8898AA'    // Electrification Data N/A
 };
 
 export const WorldMap = ({ onSelectCountry, onHoverCountry }) => {
@@ -217,13 +233,14 @@ export const WorldMap = ({ onSelectCountry, onHoverCountry }) => {
         </g>
       </svg>
 
-      {/* Existing Legend */}
+      {/* Existing Legend + 6th Electrification Data N/A item */}
       <div className="map-legend-bar">
         <div className="legend-item"><span className="legend-color-dot" style={{ backgroundColor: palette.red }} />0 – 10% (Untapped)</div>
         <div className="legend-item"><span className="legend-color-dot" style={{ backgroundColor: palette.low }} />10 – 30% (Low)</div>
         <div className="legend-item"><span className="legend-color-dot" style={{ backgroundColor: palette.orange }} />30 – 60% (Moderate)</div>
         <div className="legend-item"><span className="legend-color-dot" style={{ backgroundColor: palette.blue }} />60 – 80% (Substantial)</div>
         <div className="legend-item"><span className="legend-color-dot" style={{ backgroundColor: palette.navy }} />80 – 100% (Fully Electrified)</div>
+        <div className="legend-item"><span className="legend-color-dot" style={{ backgroundColor: palette.grey }} />Electrification Data N/A</div>
       </div>
     </div>
   );

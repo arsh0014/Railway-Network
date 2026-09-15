@@ -8,18 +8,21 @@ export const CountryTooltip = ({ countryData }) => {
     name,
     percentage,
     displayPercentage,
+    displayElectrification,
     category,
     region,
     routeKm,
     electrifiedKm,
     operator,
+    source,
     x,
     y
   } = countryData;
 
+  const isDataNA = percentage === null || percentage === undefined;
   const badgeColor = getElectrificationColor(percentage);
   const resolvedCategory = category || getElectrificationCategory(percentage);
-  const formattedPct = displayPercentage || `${percentage}%`;
+  const formattedPct = isDataNA ? 'N/A' : (displayPercentage || displayElectrification || `${percentage}%`);
 
   return (
     <div 
@@ -35,7 +38,7 @@ export const CountryTooltip = ({ countryData }) => {
           className="tooltip-badge" 
           style={{ backgroundColor: badgeColor }}
         >
-          {formattedPct} Electrified
+          {isDataNA ? 'Electrification: N/A' : `${formattedPct} Electrified`}
         </span>
       </div>
 
@@ -44,6 +47,13 @@ export const CountryTooltip = ({ countryData }) => {
         <span className="tooltip-value">{name}</span>
       </div>
 
+      {isDataNA && routeKm && (
+        <div className="tooltip-row">
+          <span className="tooltip-label">Railway Network:</span>
+          <span className="tooltip-value">{routeKm}</span>
+        </div>
+      )}
+
       <div className="tooltip-row">
         <span className="tooltip-label">Electrification:</span>
         <span className="tooltip-value" style={{ color: badgeColor, fontWeight: '800' }}>
@@ -51,10 +61,12 @@ export const CountryTooltip = ({ countryData }) => {
         </span>
       </div>
 
-      <div className="tooltip-row">
-        <span className="tooltip-label">Category:</span>
-        <span className="tooltip-value">{resolvedCategory}</span>
-      </div>
+      {!isDataNA && (
+        <div className="tooltip-row">
+          <span className="tooltip-label">Category:</span>
+          <span className="tooltip-value">{resolvedCategory}</span>
+        </div>
+      )}
 
       {region && (
         <div className="tooltip-row">
@@ -63,14 +75,23 @@ export const CountryTooltip = ({ countryData }) => {
         </div>
       )}
 
-      {routeKm && electrifiedKm && (
+      {!isDataNA && routeKm && electrifiedKm && (
         <div className="tooltip-row">
           <span className="tooltip-label">Electrified / Total:</span>
           <span className="tooltip-value">{electrifiedKm} / {routeKm}</span>
         </div>
       )}
 
-      {operator && (
+      {isDataNA && (
+        <div className="tooltip-row" style={{ marginTop: '2px', borderTop: '1px dashed #E2ECF5', paddingTop: '4px' }}>
+          <span className="tooltip-label">Source:</span>
+          <span className="tooltip-value" style={{ fontSize: '11px', color: '#17305C' }}>
+            {source || 'Global Railway Network Directory'}
+          </span>
+        </div>
+      )}
+
+      {!isDataNA && operator && (
         <div className="tooltip-row" style={{ marginTop: '2px', borderTop: '1px dashed #E2ECF5', paddingTop: '4px' }}>
           <span className="tooltip-label">Operator:</span>
           <span className="tooltip-value" style={{ fontSize: '11px', color: '#17305C' }}>
